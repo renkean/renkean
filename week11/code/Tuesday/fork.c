@@ -1,10 +1,11 @@
 #include"my.h"
 int main()
 {
-	int i;
 	int pid;
 	FILE *fp;
 	fp=fopen("ren.dat","w+");
+	if(fp==NULL)
+		perror("failed to open files!\n");
 	pid=fork();
 	if(pid<0)
 	{
@@ -13,18 +14,12 @@ int main()
 	}
 	else if(pid==0)
 	{
-		for(i=0;i<10;i++)
-		{
-			fprintf(fp,"%d---pid:%d\n",i,getpid());
-		}
+		fprintf(fp,"child---pid:%d\n",getpid());
 	}
 	else
 	{
-		for(i=0;i<10;i++)
-		{
-			fprintf(fp,"%d---pid:%d\n",i,getpid());
-		}
-		printf("success!\n");
-		fclose(fp);
+		
+		fprintf(fp,"parent---pid:%d\n",getpid());
 	}
+	fclose(fp);
 }
