@@ -33,7 +33,7 @@ int main()
 	pthread_rwlockattr_t rwlock_attr;
 	pthread_rwlockattr_init(&rwlock_attr);
 	#ifdef WRITER_FIRST
-	pthread_rwlockattr_setkind_np(&rwlock_attr,PTHREAD_WLOCK_PREFER_WRITER_NONRECURSIVE_NP);
+	pthread_rwlockattr_setkind_np(&rwlock_attr,PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP);
 	#endif
 	pthread_rwlock_init(&rwlock,&rwlock_attr);
 	int i=0;
@@ -43,11 +43,11 @@ int main()
 	{
 		if(i%2==0)
 		{
-			ret=pthread_create(&tid[i],NULL,(void*)i);
+			ret=pthread_create(&tid[i],NULL,reader,(void*)i);
 		}
 		else
 		{
-			ret=pthread_create(&tid[i],NULL,(void*)i);
+			ret=pthread_create(&tid[i],NULL,writer,(void*)i);
 		}
 		if(ret!=0)
 		{
